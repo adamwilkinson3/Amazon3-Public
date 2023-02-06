@@ -1,0 +1,91 @@
+﻿@using System.Globalization
+@{
+    ViewData["Title"] = "Product Page";
+}
+@*@model Amazon3.Models.Product*@
+
+@{
+    int i = 0;
+}
+@model Amazon3.Models.ViewModel
+
+
+<div class="container pt-5">
+    <div class="row">
+        <div class="col-6 d-flex justify-content-center">
+            <img class="w-50" src="@Html.DisplayFor(model => model.Product.Url)" style="object-fit: cover; max-width: 300px; height: 300px" />
+        </div>
+        <div class="col-6 d-flex flex-column px-5 pt-5 card" style="max-width: 500px;">
+            <div>
+                <h3 class="my-3">@Html.DisplayFor(model => model.Product.ProductName)</h3>
+                <h4 class="my-3">@Model.Product.Price.ToString("c", new CultureInfo("en-US"))</h4>
+            </div>
+           
+            <form class="d-flex flex-column" method="post">
+                <div>
+                    <label class="mr-sm-2" asp-for="Quantity">Qty: </label>
+                    <select class="custom-select mr-sm-2" asp-for="Quantity">
+                        <option selected value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary my-3" style="width: 150px">Add To Cart</button>
+            </form>
+        </div>
+    </div>
+    <h2 class="mb-3 mt-5">Related Products</h2>
+    <div class="container row row-cols-2 row-cols-lg-6 row-cols-md-3 justify-content-center">
+        @foreach (var item in ViewBag.productsList)
+        {
+            <a class="card text-dark p-0" style="height: 350px; text-decoration: none;" href="~/Home/Product/@item.ProductId">
+                <img class="card-img-top" style="height: 200px" src="@item.Url" />
+                <div class="card-body d-flex flex-column">
+                    <h5 class="cart-title">@item.ProductName</h5>
+                    <h3 class="card-subtitle mt-auto">@item.Price.ToString("c", new CultureInfo("en-US"))</h3>
+                </div>
+            </a>
+            i++;
+        }
+    </div>
+    <div class="container mt-5 row">
+        <h2 class="mb-3">Product Discription</h2>
+        <p>
+            Donec augue mauris, consectetur ac consequat sit amet, sodales quis enim. Praesent at nisi et ligula aliquam mollis eu quis nunc. Pellentesque suscipit fermentum augue eu elementum. Fusce vehicula lacus.
+        </p>
+    </div>
+    <div class="container mt-5 row">
+        <h2 class="mb-3">Reviews</h2>
+        <div class="col-lg-6 py-3">
+            <h5>Donec eget urna vitae magna</h5>
+            <p>Nam tincidunt bibendum dolor, ac egestas massa. Morbi fringilla, magna et sollicitudin rhoncus, tellus lacus mattis est, sed tempor purus elit vel elit. Nullam sit amet ex tempor, accumsan dolor.</p>
+        </div>
+        <div class="col-lg-6 py-3">
+            <h5>Nulla efficitur diam ac eleifend</h5>
+            <p>Donec ultricies aliquam neque nec molestie. In neque elit, blandit hendrerit interdum sed, molestie id magna. Integer egestas suscipit gravida. Morbi eget ullamcorper nunc. Sed faucibus bibendum arcu. Proin eu malesuada tellus, ac hendrerit nibh. Donec pharetra lectus sed enim dapibus eleifend. Duis tincidunt consequat lacus sodales maximus. Cras consequat.</p>
+        </div>
+        <div class="col-lg-6 py-3">
+            <h5>Ut consequat leo eros, non placerat leo</h5>
+            <p>Donec condimentum porta venenatis. Phasellus suscipit dapibus egestas. Phasellus vel ante nec libero auctor congue. Maecenas eu magna a leo iaculis porta. Integer fermentum mauris.</p>
+        </div>
+        <div class="col-lg-6 py-3">
+            <h5>Fusce justo justo, auctor ac nunc</h5>
+            <p>Etiam mollis a velit non malesuada. Etiam ultricies aliquet nibh, sit amet feugiat diam pretium ac. Sed urna mauris, dignissim sed enim quis, vestibulum convallis mi. Nulla vitae pretium ante.</p>
+        </div>
+        <div class="col-lg-6 py-3">
+            <h5>Mauris mi quam</h5>
+            <p>Nulla in nisi sit amet enim fringilla eleifend et vitae arcu. Vestibulum ac sem lorem. Integer facilisis lacinia nunc, eu pulvinar urna aliquet at. Ut tortor mauris, malesuada.</p>
+        </div>
+        <div class="col-lg-6 py-3">
+            <h5>Proin fringilla a ligula non blandit. Aenean ultrices</h5>
+            <p>Nullam in ipsum ante. Duis a nibh nec urna varius tempus sit amet sed nisl. Donec eget venenatis orci. Nunc egestas feugiat tortor. Sed sit amet sapien tincidunt, pretium ipsum vel, viverra.</p>
+        </div>
+    </div>
+</div>

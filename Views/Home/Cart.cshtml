@@ -1,0 +1,87 @@
+﻿@using System.Globalization
+@{
+    ViewData["Title"] = "Cart";
+    double itemTotal = 0;
+    double shipping = 4.99;
+    double tax = .01;
+}
+
+@model IEnumerable<Amazon3.Models.OrderItem>
+
+<div class="row flex-nowrap mt-2">
+    <div class="col-8 p-0" style="min-width: 600px">
+        @foreach (var item in Model) {
+            <div class="card" style="height: 250px">
+                <div class="row">
+                    <div class="col-auto">
+                            <img class="justify-content-center" style="object-fit: cover; width: 250px; height: 250px;" src="@Html.DisplayFor(model => item.Url)" alt="Product Img">
+                    </div>
+                    <div class="col">
+                        <div class="card-body row">
+                            <div class="col-8">
+                                <h5 class="card-title">@item.ProductName</h5>
+                                <div class="d-flex mt-4">
+                                    <form method="post" class="form-group" asp-route-id="@item.OrderId">
+                                        <label class="mr-sm-2" name="Quantity">Qty: </label>
+                                        <select class="custom-select mr-sm-2" name="Quantity" onchange="this.form.submit()">
+                                            <option value="1" selected=@Convert.ToBoolean(item.Quantity == 1)>1</option>
+                                            <option value="2" selected=@Convert.ToBoolean(item.Quantity == 2)>2</option>
+                                            <option value="3" selected=@Convert.ToBoolean(item.Quantity == 3)>3</option>
+                                            <option value="4" selected=@Convert.ToBoolean(item.Quantity == 4)>4</option>
+                                            <option value="5" selected=@Convert.ToBoolean(item.Quantity == 5)>5</option>
+                                            <option value="6" selected=@Convert.ToBoolean(item.Quantity == 6)>6</option>
+                                            <option value="7" selected=@Convert.ToBoolean(item.Quantity == 7)>7</option>
+                                            <option value="8" selected=@Convert.ToBoolean(item.Quantity == 8)>8</option>
+                                            <option value="9" selected=@Convert.ToBoolean(item.Quantity == 9)>9</option>
+                                            <option value="10" selected=@Convert.ToBoolean(item.Quantity == 10)>10</option>
+                                        </select>
+                                    </form>
+                                    <form asp-action="Delete" asp-route-id="@item.OrderId" class="d-inline-flex">
+                                        <button class="text-danger" style="margin-left: 15px; background:none; border: none; text-decoration: underline;">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <h5>@item.Price.ToString("c", new CultureInfo("en-US"))</h5>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 80px">
+                            <div class="col-8 d-flex justify-content-end">
+                                <h4>Subtotal:</h4>
+                            </div>
+                            <div class="col-4">
+                                <h4>@((item.Price * item.Quantity).ToString("c", new CultureInfo("en-US")))</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {
+            <div style="display: none;">@(itemTotal += item.Price * item.Quantity)</div>
+        }
+    }
+    </div>
+    <div class="col-4" style="width: 350px;">
+        <div class="card" style="height: 350px;">
+            <div class="row">
+                <h3 class="py-3 d-flex justify-content-center">Order Summary</h3>
+                <div class="col-1"></div>
+                <div class="col-7">
+                    <p>Items:</p>
+                    <p>Shipping & Handling:</p>
+                    <p>Taxes:</p>
+                    <h5>Order Total:</h5>
+                </div>
+                <div class="col-4">
+                    <p>@itemTotal.ToString("c", new CultureInfo("en-US"))</p>
+                    <p>@shipping.ToString("c", new CultureInfo("en-US"))</p>
+                    <p>@((itemTotal * tax).ToString("c", new CultureInfo("en-US")))</p>
+                    <h5>@((itemTotal + shipping + itemTotal * tax).ToString("c", new CultureInfo("en-US")))</h5>
+                </div>
+                <form asp-action="SubmitOrder" class="d-flex justify-content-center my-5">
+                    <button class="btn btn-primary w-50">Place Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
